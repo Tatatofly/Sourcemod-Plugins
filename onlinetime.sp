@@ -29,8 +29,6 @@ public OnClientDisconnect(client)
 {
 	CloseHandle(ClientTimer[client]);
 	SavePlayerInfo(client, 0);
-	timeOnline[client] = 0;
-	timeOnlineTotal[client] = 0;
 }
 
 public Action:Command_getInfo(client, args)
@@ -93,4 +91,5 @@ public SavePlayerInfo(client, connection)
 	KvRewind(DB);
 	KeyValuesToFile(DB, KVPath);
 	CloseHandle(DB);
+	timeOnline[client] = 0;
 }
