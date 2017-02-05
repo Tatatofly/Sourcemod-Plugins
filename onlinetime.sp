@@ -2,9 +2,9 @@
 
 static String:KVPath[PLATFORM_MAX_PATH];
 new Handle:ClientTimer[32];
-public Minutes[32];
-public timeOnline[32];
-public timeOnlineTotal[32];
+static Minutes[32];
+static timeOnline[32];
+static timeOnlineTotal[32];
 
 public Plugin:myinfo = {
 	name = "onlinetime",
@@ -70,13 +70,11 @@ public SavePlayerInfo(client, connection)
 			KvGetString(DB, "name", temp_name, sizeof(temp_name), "NULL");
 			
 			new conTime = KvGetNum(DB, "conTime", 0);
-			new timeOnlines = KvGetNum(DB, "minutes", 0);
-			timeOnline[client] = timeOnlines;
+			timeOnline[client] = KvGetNum(DB, "minutes", 0);
 			
 		
 		
 			KvSetNum(DB, "conTime", ++conTime);
-			KvSetNum(DB, "minutes", timeOnlines);
 			KvSetString(DB, "name", name);
 		
 		}
@@ -86,10 +84,10 @@ public SavePlayerInfo(client, connection)
 		{
 			timeOnlineTotal[client] = timeOnline[client] + Minutes[client];
 			KvSetNum(DB, "minutes", timeOnlineTotal[client]);
+			Minutes[client] = 0;
 		}
 	}
 	KvRewind(DB);
 	KeyValuesToFile(DB, KVPath);
 	CloseHandle(DB);
-	timeOnline[client] = 0;
 }
