@@ -2,9 +2,9 @@
 
 static String:KVPath[PLATFORM_MAX_PATH];
 new Handle:ClientTimer[32];
-static Minutes[32];
-static timeOnline[32];
-static timeOnlineTotal[32];
+public Minutes[32];
+public timeOnline[32];
+public timeOnlineTotal[32];
 
 public Plugin:myinfo = {
 	name = "onlinetime",
@@ -29,6 +29,8 @@ public OnClientDisconnect(client)
 {
 	CloseHandle(ClientTimer[client]);
 	SavePlayerInfo(client, 0);
+	timeOnline[client] = 0;
+	timeOnlineTotal[client] = 0;
 }
 
 public Action:Command_getInfo(client, args)
